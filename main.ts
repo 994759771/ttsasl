@@ -1,4 +1,4 @@
-
+import { UserAgent } from "https://deno.land/x/oak@v17.1.4/deps.ts";
 import { fetchHttpData } from "./httpUtils.ts";
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 
@@ -13,8 +13,11 @@ router.get("/", (context) => {
 // 定义第二个接口 GET /0821
 router.get("/0821", async (context) => {
   try {
-    const data = await fetchHttpData("https://raw.githubusercontent.com/qist/tvbox/refs/heads/master/0821.json");
+    const data = await fetchHttpData(
+      "https://gitee.com/a994759771/tvbox/raw/master/0821.json",
+    );
     context.response.body = data;
+    context.response.type = "application/json";
   } catch (error) {
     context.response.status = 500;
     context.response.body = "Failed to fetch data";
@@ -30,5 +33,5 @@ app.use(router.allowedMethods());
 
 // 启动服务器
 let port = 80;
-console.log("Listening on http://0.0.0.0:",port);
+console.log("Listening on http://0.0.0.0:", port);
 await app.listen({ port: port });
